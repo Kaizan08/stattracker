@@ -59,7 +59,7 @@ app.delete("/api/activities/:id", (req, res) => {
       res.status(500).send(err);
     });
 });
-
+//{ "date":"2017-03-27", "value": 10}
 app.post("/api/activities/:id/stats", (req, res) => {
     Activity.findById({ _id: req.params.id}).then( row =>{
         row.stats.push(req.body);
@@ -71,17 +71,16 @@ app.post("/api/activities/:id/stats", (req, res) => {
     })
 });
 
+//pass across {
+	// "date": "2017-03-27T00:00:00.000Z"
+	// }
+//check if only ID of the activity or subdocument
 app.delete("/api/activities/stats/:id", (req, res) => {
-    Activity.findById({_id: req.params.id}).then( row =>{
-        row.stats.pull(req.body);
-        row.save().then(output =>{
+    Activity.findByIdAndUpdate(req.params.id,{ "$pull": { "stats": { "date":req.body.date } } }).then( row =>{
             res.send(row);
         }).catch(err=>{
         res.status(500).send(err);
-    })
-}).catch(err=>{
-        res.status(500).send(err);
-});
+    });
 })
 
 app.listen(port, ()=>{
