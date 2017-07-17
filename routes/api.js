@@ -3,19 +3,6 @@ var router = express.Router();
 
 const Activity = require("../models/Activity");
 
-// var jwt = require("jsonwebtoken");
-// var jwtConfig = require("../jwtConfig");
-// router.get("/", function(req, res, next) {
-//   var token = jwt.sign({ user: 'sessionUser' }, jwtConfig.secret, {
-//         expiresIn: 60 * 60 * 24
-//       });
-
-//       res.json({
-//         token: token
-//       });
-// });
-
-
 router.get("/activities", (req, res)=>{
     Activity.find().then(foundActivities=>{
         res.json(foundActivities);
